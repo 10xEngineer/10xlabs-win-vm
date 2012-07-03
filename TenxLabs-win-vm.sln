@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenxLabs-win-vm", "TenxLabs-win-vm\TenxLabs-win-vm.csproj", "{40E31535-71B9-4DED-8B48-6C6C4D946736}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40E31535-71B9-4DED-8B48-6C6C4D946736}.Debug|x86.ActiveCfg = Debug|x86
+		{40E31535-71B9-4DED-8B48-6C6C4D946736}.Debug|x86.Build.0 = Debug|x86
+		{40E31535-71B9-4DED-8B48-6C6C4D946736}.Release|x86.ActiveCfg = Release|x86
+		{40E31535-71B9-4DED-8B48-6C6C4D946736}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
