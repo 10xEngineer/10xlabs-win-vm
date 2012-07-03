@@ -4,51 +4,75 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.ServiceProcess;
+using Microsoft.Win32;
+using System.Configuration;
+using System.Diagnostics;
+using System.Collections.Specialized;
 
 namespace TenxLabsService
 {
     class Program : ServiceBase
     {
         private Microcloud microcloud;
+        private string nodeName;
 
         static void Main(string[] args)
         {
-            ServiceBase.Run(new Program());
+            NameValueCollection appSettings = ConfigurationManager.AppSettings;
+
+            string endpoint = appSettings["endpoint"];
+            string nodeName = appSettings["node"];
+           
+            ServiceBase.Run(new Program(endpoint, nodeName));
         }
 
-        public Program()
+        public Program(string endpoint, string nodeName)
         {
+
             this.ServiceName = "10xLabs Windows VM";
-            this.microcloud = new Microcloud();
 
-            this.log("10xlabs created");
+            if (endpoint != null)
+            {
+                this.microcloud = new Microcloud(endpoint);
+            }
 
+            this.nodeName = nodeName;
 
+            if (this.nodeName == null) this.nodeName = "no-node-name-provided-win-vm";
         }
 
         protected override void OnStart(string[] args)
         {
             base.OnStart(args);
 
-            this.log("onStart");
+            if (this.microcloud == null)
+            {
+                Program.logEvent(@"10xLabs endpoint not configured! Stopping.");
+                base.Stop();
 
-            microcloud.notify("node", "sharp-vm", "confirm", null);
+                return;
+            }
 
+            // TODO 
+            microcloud.notify("node", this.nodeName, "confirm", null);
         }
 
         protected override void OnStop()
         {
             base.OnStop();
-
-            this.log("10xlab stopped");
         }
 
-        protected void log(string something)
+        public static void logEvent(string evn) 
         {
-            var log = File.AppendText("c:\\10x.log");
-            log.WriteLine(DateTime.Now);
-            log.WriteLine(something);
-            log.Close();
+            string sSource = "10xlabs-win-vm";
+            string sLog = "Application";
+            
+            if (!EventLog.SourceExists(sSource))
+            {
+                EventLog.CreateEventSource(sSource, sLog);
+            }
+
+            EventLog.WriteEntry(sSource, evn);
         }
 
     }

@@ -15,10 +15,10 @@ namespace TenxLabsService
         private RestClient _client;
         private PluralizationService ps;
 
-        public Microcloud()
+        public Microcloud(string endpoint)
         {
             // FIXME hardcoded endpoint
-            this._client = new RestClient("http://bunny.laststation.net:8080/");
+            this._client = new RestClient(endpoint);
             this.ps = PluralizationService.CreateService(CultureInfo.GetCultureInfo("en-us"));
         }
 
@@ -41,11 +41,7 @@ namespace TenxLabsService
 
             var response = this._client.Execute(request);
 
-            var log = File.AppendText("c:\\10x.log");
-            log.WriteLine(DateTime.Now);
-            log.WriteLine(response.Content);
-            log.Close();
-
+            // TODO handle response (error handling, logging)
         }
     }
 }
