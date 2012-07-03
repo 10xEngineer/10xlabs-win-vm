@@ -8,8 +8,8 @@
     <ProjectGuid>{40E31535-71B9-4DED-8B48-6C6C4D946736}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TenxLabs_win_vm</RootNamespace>
-    <AssemblyName>TenxLabs-win-vm</AssemblyName>
+    <RootNamespace>TenxLabsService</RootNamespace>
+    <AssemblyName>10xlabs-win-vm</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
