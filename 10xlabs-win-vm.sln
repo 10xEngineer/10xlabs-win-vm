@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenxLabs-win-vm", "TenxLabs-win-vm\TenxLabs-win-vm.csproj", "{40E31535-71B9-4DED-8B48-6C6C4D946736}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10xlabs-win-vm", "10xlabs-win-vm\10xlabs-win-vm.csproj", "{40E31535-71B9-4DED-8B48-6C6C4D946736}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
