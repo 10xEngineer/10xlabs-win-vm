@@ -6,8 +6,10 @@ using System.IO;
 using System.ServiceProcess;
 using Microsoft.Win32;
 using System.Configuration;
+using System.Configuration.Install;
 using System.Diagnostics;
 using System.Collections.Specialized;
+using System.Reflection;
 
 namespace TenxLabsService
 {
@@ -22,8 +24,24 @@ namespace TenxLabsService
 
             string endpoint = appSettings["endpoint"];
             string nodeName = appSettings["node"];
-           
-            ServiceBase.Run(new Program(endpoint, nodeName));
+
+            if (System.Environment.UserInteractive)
+            {
+                string param = string.Concat(args);
+                switch (param)
+                {
+                    case "--install":
+                        ManagedInstallerClass.InstallHelper(new string[] { Assembly.GetExecutingAssembly().Location });
+                        break;
+                    case "--uninstall":
+                        ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
+                        break;
+                }
+            }
+            else
+            {
+                ServiceBase.Run(new Program(endpoint, nodeName));
+            }
         }
 
         public Program(string endpoint, string nodeName)
