@@ -66,6 +66,9 @@ namespace TenxLabsService
         protected override void OnStop()
         {
             base.OnStop();
+
+            Microcloud mc = getMicrocloud();
+            mc.notify("node", this.nodeName, "stop", null);
         }
 
         public static void logEvent(string evn) 
