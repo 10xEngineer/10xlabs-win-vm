@@ -16,15 +16,11 @@ namespace TenxLabsService
     class Program : ServiceBase
     {
         private Microcloud microcloud;
+        private dynamic data;
         private string nodeName;
 
         static void Main(string[] args)
         {
-            NameValueCollection appSettings = ConfigurationManager.AppSettings;
-
-            string endpoint = appSettings["endpoint"];
-            string nodeName = appSettings["node"];
-
             if (System.Environment.UserInteractive)
             {
                 string param = string.Concat(args);
@@ -40,39 +36,31 @@ namespace TenxLabsService
             }
             else
             {
-                ServiceBase.Run(new Program(endpoint, nodeName));
+                ServiceBase.Run(new Program());
             }
         }
 
-        public Program(string endpoint, string nodeName)
+        public Program()
         {
-
             this.ServiceName = "10xLabs Windows VM";
-
-            if (endpoint != null)
-            {
-                this.microcloud = new Microcloud(endpoint);
-            }
-
-            this.nodeName = nodeName;
-
-            if (this.nodeName == null) this.nodeName = "no-node-name-provided-win-vm";
         }
 
         protected override void OnStart(string[] args)
         {
             base.OnStart(args);
 
-            if (this.microcloud == null)
-            {
-                Program.logEvent(@"10xLabs endpoint not configured! Stopping.");
+            this.nodeName = Ec2Metadata.getKey("instance-id");
+
+            // check if running on EC2
+            if (this.nodeName == null) {
+                Program.logEvent(@"10xLabs Win VM most likely not running on Amazon EC2! Stopping.");
                 base.Stop();
 
                 return;
             }
 
-            // TODO 
-            microcloud.notify("node", this.nodeName, "confirm", null);
+            Microcloud mc = getMicrocloud();
+            mc.notify("node", this.nodeName, "confirm", null);
         }
 
         protected override void OnStop()
@@ -92,6 +80,26 @@ namespace TenxLabsService
 
             EventLog.WriteEntry(sSource, evn);
         }
+
+        private Microcloud getMicrocloud()
+        {
+            if (this.microcloud != null) { return this.microcloud; }
+
+            this.microcloud = new Microcloud(getData()["endpoint"]);
+
+            return this.microcloud;
+        }
+
+        private dynamic getData()
+        {
+            if (this.data == null)
+            {
+                this.data = Ec2Metadata.getCustomData();
+            }
+
+            return this.data;
+        }
+   
 
     }
 }

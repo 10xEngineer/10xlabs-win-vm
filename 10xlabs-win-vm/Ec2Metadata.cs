@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using RestSharp;
 using RestSharp.Contrib;
+using RestSharp.Extensions;
 using System.Net;
 
 namespace TenxLabsService
@@ -31,13 +32,15 @@ namespace TenxLabsService
             return response.Content;
         }
 
-        public static string getCustomData()
+        public static dynamic getCustomData()
         {
-            var response = getClient().Execute<RestSharp.Serializers.JsonSerializer>(buildRequest("user-data", "/latest/{key}"));
+            var response = getClient().Execute(buildRequest("user-data", "/latest/{key}"));
 
             if (response.StatusCode != HttpStatusCode.OK) return null;
 
-            return response.Content;
+            dynamic json = SimpleJson.DeserializeObject(response.Content);
+            
+            return json;
         }
 
 
@@ -51,7 +54,7 @@ namespace TenxLabsService
 
         public static RestClient getClient()
         {
-            return new RestClient(META_END); ;
+            return new RestClient(META_END);
         }
 
     }
