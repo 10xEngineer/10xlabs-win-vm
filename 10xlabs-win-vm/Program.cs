@@ -50,6 +50,7 @@ namespace TenxLabsService
             base.OnStart(args);
 
             this.nodeName = Ec2Metadata.getKey("instance-id");
+            var hostname = Ec2Metadata.getKey("public-hostname");
 
             // check if running on EC2
             if (this.nodeName == null) {
@@ -59,8 +60,11 @@ namespace TenxLabsService
                 return;
             }
 
+            Dictionary<string, string> node = new Dictionary<string, string>();
+            node.Add("hostname", hostname);
+
             Microcloud mc = getMicrocloud();
-            mc.notify("node", this.nodeName, "confirm", null);
+            mc.notify("node", this.nodeName, "confirm", node);
         }
 
         protected override void OnStop()

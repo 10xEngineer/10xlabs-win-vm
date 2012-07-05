@@ -22,7 +22,7 @@ namespace TenxLabsService
             this.ps = PluralizationService.CreateService(CultureInfo.GetCultureInfo("en-us"));
         }
 
-        public void notify(string resource, string res_id, string action, Dictionary<string, object> descriptor)
+        public void notify(string resource, string res_id, string action, Dictionary<string,string> descriptor)
         {
             var resources = ps.Pluralize(resource);
 
