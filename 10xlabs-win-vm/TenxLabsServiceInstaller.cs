@@ -19,7 +19,7 @@ namespace TenxLabsService
 
             // service details
             serviceInstaller.DisplayName = "10xLabs Windows VM";
-            serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Manual;
+            serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
 
             // Same as Program.ServiceName
             serviceInstaller.ServiceName = "10xLabs Windows VM";
