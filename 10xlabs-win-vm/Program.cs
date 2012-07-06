@@ -32,6 +32,9 @@ namespace TenxLabsService
                     case "--uninstall":
                         ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
                         break;
+                    case "--test":
+                        Console.WriteLine(Ec2Metadata.getKey("instance-id"));
+                        break;
                 }
             }
             else
@@ -51,6 +54,11 @@ namespace TenxLabsService
 
             this.nodeName = Ec2Metadata.getKey("instance-id");
             var hostname = Ec2Metadata.getKey("public-hostname");
+
+            if (hostname == null)
+            {
+                hostname = Ec2Metadata.getKey("public-ipv4");
+            }
 
             // check if running on EC2
             if (this.nodeName == null) {
